@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const BaseUrl = "http://localhost:1009";
-export const ReferralBaseUrl="http://localhost:5173/signup"
+export const BaseUrl = "https://ecommerce-backend-1md8.onrender.com";
+export const ReferralBaseUrl="https://ecommerce-backend-1md8.onrender.com/signup"
 const AxiosInstance = axios.create({
-  baseURL: "http://localhost:1009",
+  baseURL: "https://ecommerce-backend-1md8.onrender.com",
 });
 
 AxiosInstance.interceptors.request.use(function (config) {
