@@ -1,0 +1,14 @@
+import React from "react";
+import { Navigate,Outlet } from "react-router-dom";
+
+export  function AdminAuth(){
+const token=localStorage.getItem("admin-token")
+return token ? <Outlet /> : <Navigate to={"/admin"} />;
+}
+
+export function AdminLoginAuth() {
+    const token = localStorage.getItem("admin-token");
+    return( token ? <Navigate to={"/admin/dashboard"} /> : <Outlet />)
+   
+  }
+  

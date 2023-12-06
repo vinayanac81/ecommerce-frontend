@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/crypto-addr-codec-vite@0.1.6/dist/index.min.js
+    "></script>
+    <!-- <script>
+      const setup = () => {
+        const getTheme = () => {
+          if (window.localStorage.getItem("dark")) {
+            return JSON.parse(window.localStorage.getItem("dark"));
+          }
+          return (
+            !!window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          );
+        };
+
+        const setTheme = (value) => {
+          window.localStorage.setItem("dark", value);
+        };
+
+        return {
+          loading: true,
+          isDark: getTheme(),
+          toggleTheme() {
+            this.isDark = !this.isDark;
+            setTheme(this.isDark);
+          },
+        };
+      };
+    </script> -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
