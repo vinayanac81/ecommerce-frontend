@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import AxiosUserInstance from "./AxiosUserInstance";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import toast from "react-hot-toast";
 import { setUserCart, setUserDetails } from "../../Toolkit/UserSlice";
@@ -64,45 +64,45 @@ const Login = () => {
       console.log(error);
     }
   };
-  const responseGoogleSuccess = async (response) => {
-    try {
-      const {data}=await AxiosUserInstance.post("/auth/user/google-login",{idToken:response.tokenId})
-      console.log(data);
-      if (data.success) {
-        console.log(data);
-        toast.success(data.message);
-        localStorage.setItem("token", data.token);
-        var tokenId = data.token;
-        var decoded = jwt_decode(tokenId);
-        // console.log(decoded);
-        localStorage.setItem("user", JSON.stringify(decoded));
-        function jwt_decode(token) {
-          var base64Url = token.split(".")[1];
-          var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-          var jsonPayload = decodeURIComponent(
-            window
-              .atob(base64)
-              .split("")
-              .map(function (c) {
-                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-              })
-              .join("")
-          );
+  // const responseGoogleSuccess = async (response) => {
+  //   try {
+  //     const {data}=await AxiosUserInstance.post("/auth/user/google-login",{idToken:response.tokenId})
+  //     console.log(data);
+  //     if (data.success) {
+  //       console.log(data);
+  //       toast.success(data.message);
+  //       localStorage.setItem("token", data.token);
+  //       var tokenId = data.token;
+  //       var decoded = jwt_decode(tokenId);
+  //       // console.log(decoded);
+  //       localStorage.setItem("user", JSON.stringify(decoded));
+  //       function jwt_decode(token) {
+  //         var base64Url = token.split(".")[1];
+  //         var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  //         var jsonPayload = decodeURIComponent(
+  //           window
+  //             .atob(base64)
+  //             .split("")
+  //             .map(function (c) {
+  //               return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  //             })
+  //             .join("")
+  //         );
 
-          return JSON.parse(jsonPayload);
-        }
-        localStorage.setItem("cart", data.cart_count);
-        dispatch(setUserCart(data.cart_count));
-        dispatch(setUserDetails(decoded));
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const responseGoogleError = (response) => {
-    console.log(response);
-  };
+  //         return JSON.parse(jsonPayload);
+  //       }
+  //       localStorage.setItem("cart", data.cart_count);
+  //       dispatch(setUserCart(data.cart_count));
+  //       dispatch(setUserDetails(decoded));
+  //       navigate("/");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const responseGoogleError = (response) => {
+  //   console.log(response);
+  // };
   return (
     <div className="dark:bg-gray-800 text-white h-screen">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -181,7 +181,7 @@ const Login = () => {
             </div>
           </form>
           <div className="flex w-full mt-3 px-4 justify-evenly ">
-            <div
+            {/* <div
               // onClick={handleGoogleAuth}
               className="flex    cursor-pointer items-center"
             >
@@ -193,7 +193,7 @@ const Login = () => {
                 onFailure={responseGoogleError}
                 cookiePolicy={"single_host_origin"}
               />
-            </div>
+            </div> */}
           </div>
           {/* <div class="px-6 mt-4 sm:px-0 max-w-sm">
             <button
