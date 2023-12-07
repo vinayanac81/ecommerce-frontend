@@ -87,19 +87,23 @@ const UserViewProduct = () => {
         </>
       )}
       <div className="">
-        <div className="flex gap-16 mt-5 items-cente justify-center">
+        <div className="md:flex md:flex-row flex flex-col md:gap-16 gap-1 mt-5 items-center md:items-start justify-center">
           <Card
-            className="min-w-md"
+            className="w-80 md:w-[25%] items-center"
             // imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
             // imgSrc={`${BaseUrl}/images/${productData.image}`}
           >
-             <img className="w-80 h-96" src={`${BaseUrl}/images/${productData.image}`} alt="" />
+            <img
+              className="w-80 h-96"
+              src={`${BaseUrl}/images/${productData.image}`}
+              alt=""
+            />
             <a href="#">
-              <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h5 className="text-xl uppercase font-semibold tracking-tight text-gray-900 dark:text-white">
                 {productData?.product_name}
               </h5>
             </a>
-            <div className="mb-5 mt-2.5 flex  items-center">
+            <div className="md:mb-5 mb-0 md:mt-2.5 mt-0 flex  items-center">
               <svg
                 className="h-5 w-5 text-yellow-300"
                 fill="currentColor"
@@ -161,7 +165,7 @@ const UserViewProduct = () => {
               </button>
             </div>
           </Card>
-          <Card className="w-80 min:h-96">
+          <Card className="w-80 md:w-[25%] md:h-[87vh]">
             <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
               Name :{" "}
               <span className="text-md uppercase">
@@ -203,9 +207,10 @@ const UserViewProduct = () => {
               </a>
             </div>
           </Card>
-         
         </div>
-        <div className="mt-10 text-center mb-10 text-4xl uppercase font-bold">Reviews</div>
+        <div className="mt-10 text-center mb-10 text-4xl uppercase font-bold">
+          Reviews
+        </div>
       </div>
     </div>
   );

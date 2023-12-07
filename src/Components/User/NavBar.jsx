@@ -38,7 +38,7 @@ const NavBar = ({ name }) => {
     localStorage.removeItem("cart");
     toast.success("Logout Successfully");
     // window.location.reload();
-    navigate("/login")
+    navigate("/login");
   };
   const handleLogin = () => {
     navigate("/login");
@@ -60,12 +60,12 @@ const NavBar = ({ name }) => {
     <div className="">
       <Navbar fluid>
         <Navbar.Brand href="/">
-          <span className="self-center pl-4 md:pl-24 whitespace-nowrap text-xl font-semibold dark:text-white">
+          <span className="self-center pl- md:pl-24 whitespace-nowrap text-md md:text-xl font-semibold dark:text-white">
             PHONE HOUSE
           </span>
         </Navbar.Brand>
-        <div className="flex gap-5 md:px-6 md:order-2">
-          <div className="flex relative items-center text-gray-500 text-2xl md:text-4xl">
+        <div className="flex md:gap-5 md:px-6 md:order-2">
+          <div className="flex relative items-center text-gray-500 mr-3 text-2xl md:text-4xl">
             <Link to={"/cart"}>
               <BsFillCartFill />
               <span className="md:w-4 w-3.5 flex justify-center rounded-full text-xs  text-white left-1.5 md:left-3  top-3 absolute h-4">
@@ -138,10 +138,13 @@ const NavBar = ({ name }) => {
             </>
           ) : (
             <>
-              <Button onClick={handleLogin}>
+              <button
+                className="px-4 py-2 bg-blue-600 flex rounded text-white items-center hover:bg-blue-800"
+                onClick={handleLogin}
+              >
                 Login
-                <HiOutlineLogin className="ml-2 h-5 w-5" />
-              </Button>
+                <HiOutlineLogin className="ml-1 h-5 w-5" />
+              </button>
             </>
           )}
 

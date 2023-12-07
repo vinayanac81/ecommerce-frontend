@@ -192,7 +192,7 @@ const UserProfile = () => {
     toast.success("Logout Successfully");
   };
   return (
-    <div className="h-screen dark:bg-gray-700">
+    <div className="min:h-screen pb-20 dark:bg-gray-900">
       <NavBar />
       <Modal
         show={openModal}
@@ -240,7 +240,7 @@ const UserProfile = () => {
       </Modal>
       <div>
         <div className="fixed flex flex-col top-15 left-0 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
-          <div className="overflow-y-auto  overflow-x-hidden flex flex-col justify-between flex-grow">
+          <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
             <ul className="flex flex-col py-4 space-y-1">
               <li className="px-5 hidden md:block">
                 <div className="flex flex-row items-center h-8">
@@ -386,8 +386,8 @@ const UserProfile = () => {
       </div>
       {checkActive.account && (
         <>
-          <div className="h-full mx-auto  flex  ml-14 mt-20 mb-10 md:ml-64">
-            <div className="w-[30%] mx-20">
+          <div className="h-screen mx-auto flex flex-col md:items-start items-center md:flex md:flex-row  ml-14 mt-4 md:mt-20 mb-10 md:ml-64">
+            <div className="md:w-[30%] justify-cente fle w-[70%] md:mx-20">
               <Card className="max-w-sm">
                 <div className="flex flex-col items-center pb-10">
                   {userDetails.image === "" ? (
@@ -434,54 +434,53 @@ const UserProfile = () => {
                 </div>
               </Card>
             </div>
-            <div className="">
-              <div className="px-10 flex  text-white">
+            <div className="mt-5 md:w-[50%]  w-[70%]">
+              <div className="md:px-10 flex  text-white">
                 <h2 className=" text-lg tracking-wide truncate">
                   Account Settings
                 </h2>
               </div>
-              <div className="px-10 mt-4  items-center text-sm tracking-wide truncate text-white flex gap-5">
+              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
                 <label htmlFor="">First Name</label>
                 <input
                   type="text"
-                  className="rounded border md:w-96 ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
                   name=""
                   id=""
                 />
               </div>
-              <div className="px-10 items-center mt-4 text-sm tracking-wide truncate text-white flex gap-5">
-                <label htmlFor="">Last Name</label>
+              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label htmlFor="">First Name</label>
                 <input
                   type="text"
-                  className="rounded  md:w-96 border ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
                   name=""
                   id=""
                 />
               </div>
-
-              <div className="px-10 items-center mt-4 text-sm tracking-wide truncate text-white flex gap-5">
-                <label htmlFor="">Email Address</label>
+              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label htmlFor="">First Name</label>
                 <input
                   type="text"
-                  className="rounded  md:w-96  border ml-1 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
                   name=""
                   id=""
                 />
               </div>
-              <div className="px-10 mt-4 items-center text-sm tracking-wide truncate text-white flex gap-5">
-                <label htmlFor="">Mobile Number</label>
+              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label htmlFor="">First Name</label>
                 <input
                   type="text"
-                  className="rounded border   md:w-96  border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
                   name=""
                   id=""
                 />
               </div>
-              <div className="mt-6 px-10 flex gap-8">
-                <button className="text-sm bg-blue-600 hover:bg-blue-800 rounded tracking-wide truncate text-white px-4 py-2 ">
+              <div className="mt-6  flex gap-8">
+                <button className="text-sm w-[60%] bg-blue-600 hover:bg-blue-800 rounded tracking-wide truncate text-white px-4 py-2 ">
                   Update changes
                 </button>
-                <button className="text-sm bg-gray-500 hover:bg-gray-800 rounded tracking-wide truncate text-white px-4 py-2 ">
+                <button className="text-sm w-[40%] bg-gray-500 hover:bg-gray-800 rounded tracking-wide truncate text-white px-4 py-2 ">
                   Cancel
                 </button>
               </div>
@@ -551,8 +550,8 @@ const UserProfile = () => {
       )}
       {checkActive.wallet && (
         <>
-          <div className="h-full    ml-14 mt-20 mb-10 md:ml-64">
-            <Card className="max-w-md mx-auto">
+          <div className="h-screen  ml-14  md:ml-0 mt-8 md:mt-20 mb-10 ">
+            <Card className="w-[80%] md:w-[25%] mx-auto">
               <form className="flex flex-col gap-4">
                 <div>
                   <div className="">
