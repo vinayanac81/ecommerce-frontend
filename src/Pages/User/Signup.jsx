@@ -46,15 +46,17 @@ const Signup = () => {
     try {
       e.preventDefault();
       console.log(otp);
-      const { data } = await AxiosUserInstance.post("/auth/user/verify-otp", { otp });
+      const { data } = await AxiosUserInstance.post("/auth/user/verify-otp", {
+        otp,
+      });
       console.log(data);
       if (data.success === true) {
         toast.success(data.message);
         navigate("/login");
       } else {
         toast.error(data.message);
-        setOtp("")
-        setopenModal(false)
+        setOtp("");
+        setopenModal(false);
         navigate("/signup");
       }
     } catch (error) {
@@ -116,22 +118,7 @@ const Signup = () => {
               shadow
             />
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="mobile" value="Mobile number" />
-            </div>
-            <TextInput
-              id="mobile"
-              value={signupData.mobile}
-              onChange={(e) =>
-                setsignupData({ ...signupData, mobile: e.target.value })
-              }
-              type="text"
-              placeholder=""
-              required
-              shadow
-            />
-          </div>
+
           <div>
             <div className="mb-2 block">
               <Label htmlFor="password" value="Password" />
