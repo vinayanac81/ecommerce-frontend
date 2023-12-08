@@ -7,6 +7,8 @@ import { gapi } from "gapi-script";
 import toast from "react-hot-toast";
 import { setUserCart, setUserDetails } from "../../Toolkit/UserSlice";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import { BaseUrl } from "../../Constants";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,7 +69,7 @@ const Login = () => {
   const responseGoogleSuccess = async (response) => {
     try {
       console.log("ok");
-      const { data } = await AxiosUserInstance.post("/auth/user/google-login", {
+      const { data } = await axios.post(`${BaseUrl}/auth/user/google-login`, {
         idToken: response.credential,
       });
       console.log(data);
