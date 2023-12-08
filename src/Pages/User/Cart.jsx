@@ -8,7 +8,7 @@ import { BaseUrl } from "../../Constants";
 const Cart = () => {
   const navigate = useNavigate();
   const [cartProducts, setcartProducts] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const [cartCount, setcartCount] = useState("");
   const [isCartEmpty, setisCartEmpty] = useState("");
   const getAllCartProducts = async (req, res) => {
@@ -41,7 +41,7 @@ const Cart = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("cart");
-        navigate("/login");
+        navigate("/");
         toast.error("Please login");
       }
     }

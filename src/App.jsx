@@ -26,7 +26,12 @@ import UserProfile from "./Pages/User/UserProfile";
 import Coupen from "./Pages/Admin/Coupen";
 import AddCoupen from "./Pages/Admin/AddCoupen";
 import AddAddress from "./Pages/User/AddAddress";
-import { AdminAuth, AdminLoginAuth } from "./Authorization/Authorization";
+import {
+  AdminAuth,
+  AdminLoginAuth,
+  UserAuth,
+  UserLoginAuth,
+} from "./Authorization/Authorization";
 import ViewUserProfile from "./Pages/Admin/ViewUserProfile";
 import Validation from "./Pages/Validation";
 import ViewAddress from "./Pages/User/ViewAddress";
@@ -42,24 +47,27 @@ function App() {
         <Routes>
           {/* User Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/add-address" element={<AddAddress />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/account" element={<UserProfile />} />
           <Route path="/filter/brand/:type" element={<Brands />} />
           <Route path="/filter/category/:type" element={<Category />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/checkout/:id" element={<Checkout />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/order-success" element={<PaymentSuccess />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/view-address/:id" element={<ViewAddress />} />
-          <Route path="/edit-address/:id" element={<EditAddress />} />
           <Route path="/product/view/:id" element={<UserViewProduct />} />
-          {/* <Route path="/booked-product/:orderId" element={<BookedProduct />} /> */}
-          <Route path="/order/view/:id" element={<UserOrderViewPage/>} />
-          
+          <Route element={<UserLoginAuth />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Route>
+          <Route element={<UserAuth />}>
+            <Route path="/add-address" element={<AddAddress />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/account" element={<UserProfile />} />
+            <Route path="/checkout/:id" element={<Checkout />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/order-success" element={<PaymentSuccess />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/view-address/:id" element={<ViewAddress />} />
+            <Route path="/edit-address/:id" element={<EditAddress />} />
+            <Route path="/order/view/:id" element={<UserOrderViewPage />} />
+          </Route>
+
           {/* Admin Routes */}
           {/* <Route element={<AdminLoginAuth />}> */}
           <Route path="/admin" element={<AdminLogin />} />
@@ -71,7 +79,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/orders" element={<Orders />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
-          <Route path="/admin/order/view/:id" element={<OrderViewPage/>} />
+          <Route path="/admin/order/view/:id" element={<OrderViewPage />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/edit-product/:id" element={<EditProduct />} />
           <Route path="/admin/view-user/:id" element={<ViewUserProfile />} />

@@ -14,7 +14,7 @@ import { GiWallet } from "react-icons/gi";
 import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { Banner, Modal, FileInput } from "flowbite-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaWallet } from "react-icons/fa";
 import AxiosUserInstance from "./AxiosUserInstance";
 import toast from "react-hot-toast";
@@ -22,9 +22,11 @@ import { BaseUrl, ReferralBaseUrl } from "../../Constants";
 import { useNavigate } from "react-router-dom";
 import copy from "copy-to-clipboard";
 import { GrLogout } from "react-icons/gr";
+import { setUserCart, setUserDetails } from "../../Toolkit/UserSlice";
 const UserProfile = () => {
   const navigate = useNavigate();
   const textRef = useRef();
+  const dispatch = useDispatch();
   const { userDetails } = useSelector((state) => state.user);
   const [referralCode, setreferralCode] = useState("");
   const [checkActive, setcheckActive] = useState({
@@ -188,7 +190,9 @@ const UserProfile = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.setItem("cart", 0);
-    navigate("/login");
+    dispatch(setUserDetails(""));
+    dispatch(setUserCart(0));
+    navigate("/");
     toast.success("Logout Successfully");
   };
   return (
@@ -390,12 +394,11 @@ const UserProfile = () => {
             <div className="md:w-[30%] justify-cente fle w-[70%] md:mx-20">
               <Card className="max-w-sm">
                 <div className="flex flex-col items-center pb-10">
-                  {userDetails.image === "" ? (
+                  {!userDetails.image ? (
                     <>
                       <div className="h-28 w-28 ">
-                        <div className="rounded-full bg-gray-700 flex justify-center items-center text-6xl w-full h-full">
-                          {userDetails.first_name.slice(0, 1)}{" "}
-                          {userDetails.last_name.slice(0, 1)}
+                        <div className="rounded-full bg-pink-700 text-white flex justify-center items-center text-7xl w-full h-full">
+                          {userDetails.first_name.slice(0, 1)}
                         </div>
                       </div>
                     </>
@@ -440,48 +443,64 @@ const UserProfile = () => {
                   Account Settings
                 </h2>
               </div>
-              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
-                <label htmlFor="">First Name</label>
+              <div className="md:pl-10  relative mt-4 md:mb-8  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label className="w-[14%]" htmlFor="">
+                  First Name
+                </label>
                 <input
                   type="text"
-                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  value={userDetails.first_name}
+                  className="rounded border w-full md:w md:ml-l border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
                   name=""
                   id=""
                 />
-              </div>
-              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
-                <label htmlFor="">First Name</label>
-                <input
-                  type="text"
-                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
-                  name=""
-                  id=""
-                />
-              </div>
-              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
-                <label htmlFor="">First Name</label>
-                <input
-                  type="text"
-                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
-                  name=""
-                  id=""
-                />
-              </div>
-              <div className="md:px-10 mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
-                <label htmlFor="">First Name</label>
-                <input
-                  type="text"
-                  className="rounded border w-full md:w-96 md:ml-7 border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
-                  name=""
-                  id=""
-                />
-              </div>
-              <div className="mt-6  flex gap-8">
-                <button className="text-sm w-[60%] bg-blue-600 hover:bg-blue-800 rounded tracking-wide truncate text-white px-4 py-2 ">
-                  Update changes
+                <button className="absolute px-4 bg-blue-600 hover:bg-blue-800 z-2 py-2.5 md:py-2.5 right-0 md:top-0 top-5 md:right-0 ">
+                  Update
                 </button>
-                <button className="text-sm w-[40%] bg-gray-500 hover:bg-gray-800 rounded tracking-wide truncate text-white px-4 py-2 ">
-                  Cancel
+              </div>
+              <div className="md:pl-10  relative mt-4 md:mb-8 items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label className="w-[14%]" htmlFor="">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.last_name}
+                  className="rounded border w-full md:w md:ml-l border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  name=""
+                  id=""
+                />
+                <button className="absolute px-4 bg-blue-600 hover:bg-blue-800 z-2 py-2.5 md:py-2.5 right-0 md:top-0 top-5 md:right-0 ">
+                  Update
+                </button>
+              </div>
+              <div className="md:pl-10  relative mt-4 md:mb-8 items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label className="w-[14%]" htmlFor="">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.email}
+                  className="rounded border w-full md:w md:ml-l border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  name=""
+                  id=""
+                />
+                <button className="absolute px-4 bg-blue-600 hover:bg-blue-800 z-2 py-2.5 md:py-2.5 right-0 md:top-0 top-5 md:right-0 ">
+                  Update
+                </button>
+              </div>
+              <div className="md:pl-10  relative mt-4  items-center text-sm tracking-wide truncate text-white md:flex md:flex-row gap-5">
+                <label className="w-[14%]" htmlFor="">
+                  Mobile
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.mobile ? "" : userDetails?.mobile}
+                  className="rounded border w-full md:w md:ml-l border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-gray-50 outline-none py-2 px-4 "
+                  name=""
+                  id=""
+                />
+                <button className="absolute px-4 bg-blue-600 hover:bg-blue-800 z-2 py-2.5 md:py-2.5 right-0 md:top-0 top-5 md:right-0 ">
+                  Update
                 </button>
               </div>
             </div>
@@ -490,7 +509,7 @@ const UserProfile = () => {
       )}
       {checkActive.password && (
         <>
-          <div className="h-full    ml-14 mt-20 mb-10 md:ml-64">
+          <div className="h-screen    ml-14 mt-20 mb-10 md:ml-64">
             <Card className="max-w-md mx-auto">
               <form className="flex flex-col gap-4">
                 <div>
@@ -579,7 +598,7 @@ const UserProfile = () => {
       )}
       {checkActive.address && (
         <>
-          <div className="h-full    ml-14 mt-20 mb-10 md:ml-64">
+          <div className="h-screen    ml-14 mt-20 mb-10 md:ml-64">
             <Card className="max-w-md mx-auto">
               <form className="flex flex-col gap-4">
                 <div>
@@ -642,7 +661,7 @@ const UserProfile = () => {
       )}
       {checkActive.referral && (
         <>
-          <div className="h-full    ml-14 mt-20 mb-10 md:ml-64">
+          <div className="h-screen    ml-14 mt-20 mb-10 md:ml-64">
             <Card className="max-w-md mx-auto">
               <form className="flex flex-col gap-4">
                 <div>
@@ -723,346 +742,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-// <div className="">
-//   <NavBar />
-//   <Modal
-//     show={openModal}
-//     size="md"
-//     onClose={() => setopenModal(false)}
-//     popup
-//   >
-//     <Modal.Header />
-//     <div className="flex  w-full items-center justify-center">
-//       <Label
-//         htmlFor="dropzone-file"
-//         className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-//       >
-//         <div className="flex flex-col items-center justify-center pb-6 pt-5">
-//           <svg
-//             className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-//             aria-hidden="true"
-//             xmlns="http://www.w3.org/2000/svg"
-//             fill="none"
-//             viewBox="0 0 20 16"
-//           >
-//             <path
-//               stroke="currentColor"
-//               strokeLinecap="round"
-//               strokeLinejoin="round"
-//               strokeWidth="2"
-//               d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-//             />
-//           </svg>
-//           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-//             <span className="font-semibold">Click to upload</span> or drag
-//             and drop
-//           </p>
-//           <p className="text-xs text-gray-500 dark:text-gray-400">
-//             SVG, PNG, JPG or GIF (MAX. 800x400px)
-//           </p>
-//         </div>
-//         <FileInput
-//           onChange={handleImage}
-//           id="dropzone-file"
-//           className="hidden"
-//         />
-//       </Label>
-//     </div>
-//   </Modal>
-//   <div className="dark:bg-gray-700 px-10 h-screen">
-//     <div className=" pt-10 ">
-//       <div className="md:max-w-4xl  max-w-md mx-auto rounded  font-bold text-white text-cente flex flex-col ">
-//         <div className="flex bg-gray-400 py-6 justify-center">
-//           User Profile
-//         </div>
-//         <div className="h-full  mt-5">
-//           <div className=" block h-[30rem]  md:flex">
-//             <div className="w-full md:w-2/5 p-4 sm:p-6  lg:p-8 bg-white shadow-md">
-//               <div className="flex justify-end">
-//                 <button
-//                   onClick={() => setopenModal(true)}
-//                   className="-mt-2 text-md font-bold text-white bg-gray-700 rounded-full px-5 py-2 hover:bg-gray-800"
-//                 >
-//                   Edit
-//                 </button>
-//               </div>
-
-//               <div className="w-full p-8 mx-2 flex justify-center">
-//                 <div className="w-40 h-40 rounded-full">
-//                   {userDetails?.image ? (
-//                     <>
-//                       <div className="">
-//                         <img
-//                           className="w-40 h-40 rounded-full"
-//                           src={`${BaseUrl}/images/${userDetails?.image}`}
-//                           alt="Rounded avatar"
-//                         />
-//                       </div>
-//                     </>
-//                   ) : (
-//                     <>
-//                       <div className="">
-//                         <svg
-//                           className=" w-48 h-48 bg-black rounded-full text-gray-400 -left-1"
-//                           fill="currentColor"
-//                           viewBox="0 0 20 20"
-//                           xmlns="http://www.w3.org/2000/svg"
-//                         >
-//                           <path
-//                             fillRule="evenodd"
-//                             d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-//                             clipRule="evenodd"
-//                           ></path>
-//                         </svg>
-//                       </div>
-//                     </>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="w-full  md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
-//               <div className="rounded  shadow p-">
-//                 <div className="flex py-4 flex-wrap  gap-5 justify-evenly  bg-blac w-full">
-//                   <div className=" flex justify-center">
-//                     <button
-//                       onClick={() =>
-//                         setcheckActive({
-//                           ...checkActive,
-//                           profile: true,
-//                           wallet: false,
-//                           referral:false,
-//                           address: false,
-//                         })
-//                       }
-//                       className={`py-2 px-4 rounded ${
-//                         checkActive.profile
-//                           ? "bg-pink-500"
-//                           : "bg-gray-600 hover:bg-gray-800"
-//                       }  `}
-//                     >
-//                       Profile
-//                     </button>
-//                   </div>
-//                   <div className="  flex justify-center">
-//                     <button
-//                       onClick={() => {
-//                         setcheckActive({
-//                           ...checkActive,
-//                           wallet: true,
-//                           profile: false,
-//                           referral:false,
-//                           address: false,
-//                         });
-//                       }}
-//                       className={`py-2 px-4 rounded ${
-//                         checkActive.wallet
-//                           ? "bg-pink-500"
-//                           : "bg-gray-600 hover:bg-gray-800"
-//                       }  `}
-//                     >
-//                       {" "}
-//                       Wallet
-//                     </button>
-//                   </div>
-
-//                   <div className="  flex justify-center">
-//                     <button
-//                       onClick={getAddress}
-//                       className={`py-2 px-4 rounded ${
-//                         checkActive.address
-//                           ? "bg-pink-500"
-//                           : "bg-gray-600 hover:bg-gray-800"
-//                       }  `}
-//                     >
-//                       Address
-//                     </button>
-//                   </div>
-//                   <div className="  flex justify-center">
-//                     <button
-//                       onClick={() => {
-//                         setcheckActive({
-//                           ...checkActive,
-//                           wallet: false,
-//                           referral: true,
-//                           profile: false,
-//                           address: false,
-//                         });
-//                       }}
-//                       className={`py-2 px-4 rounded ${
-//                         checkActive.referral
-//                           ? "bg-pink-500"
-//                           : "bg-gray-600 hover:bg-gray-800"
-//                       }  `}
-//                     >
-//                       Referral
-//                     </button>
-//                   </div>
-//                 </div>
-//                 <div className="text-black pb-4 px-6">
-//                   {checkActive.profile && (
-//                     <>
-//                       <div className="">
-//                         <div className="pb-6 px-4">
-//                           <label
-//                             htmlFor="name"
-//                             className="font-semibold text-gray-700 block pb-1"
-//                           >
-//                             First name
-//                           </label>
-//                           <div className="flex">
-//                             <input
-//                               id="name"
-//                               className="border-1  bg-slate-700 text-black  rounded-r px-4 py-2 w-full"
-//                               type="text"
-//                               value={userProfile.firstname}
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="pb-6 px-4">
-//                           <label
-//                             htmlFor="name"
-//                             className="font-semibold text-gray-700 block pb-1"
-//                           >
-//                             Last name
-//                           </label>
-//                           <div className="flex">
-//                             <input
-//                               id="name"
-//                               className="border-1 text-black  bg-slate-700  rounded-r px-4 py-2 w-full"
-//                               type="text"
-//                               value={userProfile.lastname}
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="pb-4 px-4 ">
-//                           <label
-//                             htmlFor="email"
-//                             className="font-semibold text-gray-700 block pb-1"
-//                           >
-//                             Email
-//                           </label>
-//                           <input
-//                             id="email"
-//                             className="border-1  bg-slate-700 text-black mb-5  rounded-r px-4 py-2 w-full"
-//                             type="email"
-//                             value={userProfile.email}
-//                           />
-//                           <Button color="warning">Update changes</Button>
-//                         </div>
-//                       </div>
-//                     </>
-//                   )}
-//                   {checkActive.wallet && (
-//                     <>
-//                       <div className="flex flex-col justify-center gap-10 items-center h-40">
-//                         <div className="px-10 flex justify-center  items-center">
-//                           <span className="text-black">
-//                             Total : {userDetails?.wallet} Rupees
-//                           </span>
-//                         </div>
-//                         <div className="flex mt- items-center justify-center">
-//                           {" "}
-//                           <Button color="cyan">Add amount to wallet</Button>
-//                         </div>
-//                       </div>
-//                     </>
-//                   )}
-//                   {checkActive.address && (
-//                     <>
-//                       {ifAddress ? (
-//                         <>
-//                           <div className="flex  w-full h-20 flex-wrap rounded text-white bg-gray-600">
-//                             <div className="p-4 w-[80%] text-sm">
-//                               First Name:{address.first_name},Last Name:
-//                               {address.last_name},Phone Number:
-//                               {address.phone_number},Place:{address.place}
-//                               ....
-//                             </div>
-//                             <div className="w-[20%] flex justify-center items-center  gap-2 flex-col">
-//                               <button className="bg-emerald-600 rounded py-1 px-2">
-//                                 Edit
-//                               </button>
-//                               <button className="bg-blue-600 py-1 px-2 rounded">
-//                                 View
-//                               </button>
-//                             </div>
-//                           </div>
-//                         </>
-//                       ) : (
-//                         <>
-//                           <div className="flex flex-col  gap-7 h-40 justify-center items-center">
-//                             <span>No address found</span>
-//                             <button
-//                               onClick={createAddress}
-//                               className="bg-primary-600 px-4 py-2 text-white hover:bg-primary-800 rounded"
-//                             >
-//                               Add Address
-//                             </button>
-//                           </div>
-//                         </>
-//                       )}
-//                     </>
-//                   )}
-//                   {checkActive.referral && (
-//                     <>
-//                       <div class="flex flex-col h-40">
-//                         <div
-//                           class=" mb-3 w-full"
-//                           data-te-input-wrapper-init
-//                         >
-//                           <div className="mb-2">
-//                             <label
-//                               className="dark:text-gray-800"
-//                               htmlFor=""
-//                             >
-//                               Referral link
-//                             </label>
-//                           </div>
-//                           <div className="flex gap-4">
-//                             <input
-//                               type="text"
-//                               value={`${ReferralBaseUrl}/${userDetails.referral_code}`}
-//                               class="peer text-sm text-gray-800 block bg-slate-300 min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none  dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-//                               id="copy-target"
-//                               ref={textRef}
-//                             />
-//                             <div className="">
-//                               <button
-//                                 id="copy-button"
-//                                 type="button"
-//                                 onClick={copyToClipboard}
-//                                 data-te-clipboard-init
-//                                 data-te-clipboard-target="#copy-target"
-//                                 data-te-ripple-init
-//                                 data-te-ripple-color="light"
-//                                 class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-//                               >
-//                                 Copy
-//                               </button>
-//                             </div>
-//                           </div>
-//                         </div>
-//                        {
-//                         referralCount===0?(<>
-//                         <div className=" px-4 py-2 mt-4 cursor-pointer bg-yellow-600 mx-auto flex items-center border-2 rounded h-10 border-gray-800 ">
-//                         You have no referrals
-//                         </div>
-//                         </>):(<>
-//                           <div className="flex">
-//                           <span> {userDetails?.referral} Referrals</span>
-//                          <button className="bg-emerald-600 px-4 py3 hover:bg-emerald-800">View referrals</button>
-//                         </div>
-//                         </>)
-//                        }
-//                       </div>
-//                     </>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </div>

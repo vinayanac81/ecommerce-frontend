@@ -9,11 +9,10 @@ const UserSlice = createSlice({
   initialState,
   reducers: {
     setUserDetails: (state, action) => {
-      console.log(action.payload);
       state.userDetails = action.payload;
     },
     setUserCart: (state, action) => {
-      console.log(action.payload+"redux");
+      console.log(action.payload);
       state.userCart = action.payload;
     },
   },

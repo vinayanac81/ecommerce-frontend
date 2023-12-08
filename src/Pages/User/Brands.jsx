@@ -31,8 +31,8 @@ const Brands = () => {
         {products.length > 0 ? (
           <>
             <div className="flex flex-col">
-              <div className=" w-full text-center pt-5 font-bold text-white text-2xl">
-                New Arrivals
+              <div className=" w-full text-center pt-5 font-bold text-white text-lg">
+                Filter by Brand - "<span className="uppercase">{type}</span>"
               </div>
               <div className="p-7  flex gap-10 justify-evenly md:justify-center flex-wrap">
                 {products.map((product, id) => (

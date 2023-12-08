@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../../Components/User/NavBar";
 import { Card } from "flowbite-react";
 import AxiosUserInstance from "./AxiosUserInstance";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BaseUrl } from "../../Constants";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,8 @@ import { setUserCart } from "../../Toolkit/UserSlice";
 const UserViewProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [loading, setloading] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setloading] = useState(true);
   const [productData, setproductData] = useState({});
   useEffect(() => {
     getProductData();
@@ -49,6 +50,16 @@ const UserViewProduct = () => {
       }
     } catch (error) {
       console.log(error);
+      if (
+        error?.response?.data?.message === "unauthorized user" ||
+        error?.response?.data?.message === "Unauthorized"
+      ) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cart");
+        navigate("/");
+        toast.error("Please login");
+      }
     }
   };
   const handleAddtoCart = (id, stock) => {
@@ -61,7 +72,7 @@ const UserViewProduct = () => {
   return (
     <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
       <NavBar />
-      {loading && (
+      {loading === true ? (
         <>
           <div className="w-full  h-screen flex justify-center items-center">
             <div role="status">
@@ -85,133 +96,139 @@ const UserViewProduct = () => {
             </div>
           </div>
         </>
-      )}
-      <div className="">
-        <div className="md:flex md:flex-row flex flex-col md:gap-16 gap-1 mt-5 items-center md:items-start justify-center">
-          <Card
-            className="w-80 md:w-[25%] items-center"
-            // imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-            // imgSrc={`${BaseUrl}/images/${productData.image}`}
-          >
-            <img
-              className="w-80 h-96"
-              src={`${BaseUrl}/images/${productData.image}`}
-              alt=""
-            />
-            <a href="#">
-              <h5 className="text-xl uppercase font-semibold tracking-tight text-gray-900 dark:text-white">
-                {productData?.product_name}
-              </h5>
-            </a>
-            <div className="md:mb-5 mb-0 md:mt-2.5 mt-0 flex  items-center">
-              <svg
-                className="h-5 w-5 text-yellow-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+      ) : (
+        <>
+          <div className="">
+            <div className="md:flex md:flex-row flex flex-col md:gap-16 gap-5 mt-5 items-center md:items-start justify-center">
+              <Card
+                className="w-80 md:w-[25%] items-center"
+                // imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
+                // imgSrc={`${BaseUrl}/images/${productData.image}`}
               >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <svg
-                className="h-5 w-5 text-yellow-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <svg
-                className="h-5 w-5 text-yellow-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <svg
-                className="h-5 w-5 text-yellow-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <svg
-                className="h-5 w-5 text-yellow-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
-                5.0
-              </span>
-              <span className="bg-blue-800 py-2 cursor-pointer px-4 rounded ml-auto">
-                {productData.stock > 0 ? "In Stock" : "Out of stock"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                {productData.price}
-              </span>
-              <button
-                onClick={() =>
-                  handleAddtoCart(productData._id, productData.stock)
-                }
-                className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-              >
-                Add to cart
-              </button>
-            </div>
-          </Card>
-          <Card className="w-80 md:w-[25%] md:h-[87vh]">
-            <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
-              Name :{" "}
-              <span className="text-md uppercase">
-                {" "}
-                {productData.product_name}
-              </span>
-            </h5>
-            <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
-              Brand :{" "}
-              <span className="text-md uppercase">
-                {" "}
-                {productData.sub_category}
-              </span>
-            </h5>
-            <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
-              Category :{" "}
-              <span className="text-md uppercase"> {productData.category}</span>
-            </h5>
-            <h5 className="mb-2 text-sm uppercase font-bold text-gray-900 dark:text-white">
-              Stock :{" "}
-              <span className="text-md uppercase">
-                {" "}
-                {productData.stock} pieces available
-              </span>
-            </h5>
-            <p className="mb-5 text-base text-gray-500 dark:text-gray-400 sm:text-lg">
-              Description : {productData.description}
-            </p>
-            <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-              <a
-                href="#"
-                className="inline-flex w-full items-center justify-center rounded-lg bg-gray-800 px-4 py-2.5 text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 sm:w-auto"
-              >
-                <div className="text-left">
-                  <div className="-mt-1 font-sans px-4 py-2 text-sm font-semibold">
-                    Add to wishlist
-                  </div>
+                <img
+                  className="w-80 h-40 md:h-60"
+                  src={`${BaseUrl}/images/${productData.image}`}
+                  alt=""
+                />
+                <a href="#">
+                  <h5 className="text-xl uppercase font-semibold tracking-tight text-gray-900 dark:text-white">
+                    {productData?.product_name}
+                  </h5>
+                </a>
+                <div className="md:mb-5 mb-0 md:mt-2.5 mt-0 flex  items-center">
+                  <svg
+                    className="h-5 w-5 text-yellow-300"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg
+                    className="h-5 w-5 text-yellow-300"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg
+                    className="h-5 w-5 text-yellow-300"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg
+                    className="h-5 w-5 text-yellow-300"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <svg
+                    className="h-5 w-5 text-yellow-300"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
+                    5.0
+                  </span>
+                  <span className="bg-blue-800 py-2 cursor-pointer px-4 rounded ml-auto">
+                    {productData.stock > 0 ? "In Stock" : "Out of stock"}
+                  </span>
                 </div>
-              </a>
+                <div className="flex items-center justify-between">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                    {productData.price}
+                  </span>
+                  <button
+                    onClick={() =>
+                      handleAddtoCart(productData._id, productData.stock)
+                    }
+                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </Card>
+              <Card className="w-80 md:w-[25%] h-full md:h-full">
+                <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
+                  Name :{" "}
+                  <span className="md:text-md text-sm uppercase">
+                    {" "}
+                    {productData.product_name}
+                  </span>
+                </h5>
+                <h5 className="mb-2 md:text-md text-sm uppercase font-bold text-gray-900 dark:text-white">
+                  Brand :{" "}
+                  <span className="text-md uppercase">
+                    {" "}
+                    {productData.sub_category}
+                  </span>
+                </h5>
+                <h5 className="mb-2 text-md uppercase font-bold text-gray-900 dark:text-white">
+                  Category :{" "}
+                  <span className="text-md uppercase">
+                    {" "}
+                    {productData.category}
+                  </span>
+                </h5>
+                <h5 className="mb-2 text-sm uppercase font-bold text-gray-900 dark:text-white">
+                  Stock :{" "}
+                  <span className="text-md uppercase">
+                    {" "}
+                    {productData.stock} pieces available
+                  </span>
+                </h5>
+                <p className="mb-2 text-base text-gray-500 dark:text-gray-400 sm:text-lg">
+                  Description : {productData.description}
+                </p>
+                <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+                  <a
+                    href="#"
+                    className="inline-flex w-full items-center justify-center rounded-lg bg-gray-800 px-4 py-2.5 text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 sm:w-auto"
+                  >
+                    <div className="text-left">
+                      <div className="-mt-1 font-sans px-4 py-2 text-sm font-semibold">
+                        Add to wishlist
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </Card>
             </div>
-          </Card>
-        </div>
-        <div className="mt-10 text-center mb-10 text-4xl uppercase font-bold">
+            {/* <div className="mt-10 text-center mb-10 text-4xl uppercase font-bold">
           Reviews
-        </div>
-      </div>
+        </div> */}
+          </div>
+        </>
+      )}
     </div>
   );
 };

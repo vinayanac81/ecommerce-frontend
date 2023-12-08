@@ -6,15 +6,13 @@ import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 const Home = () => {
   const [products, setproducts] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const getProducts = async () => {
     try {
       // user = JSON.parse(user);
       // console.log(user._id);
       setloading(true);
-      const { data } = await AxiosUserInstance.get("/get-products", {
-        
-      });
+      const { data } = await AxiosUserInstance.get("/get-products", {});
       console.log(data);
       setloading(false);
       if (data.success) {
@@ -29,27 +27,29 @@ const Home = () => {
   }, []);
   return (
     <div className=" dark:bg-gray-700">
-      <NavBar name="home"/>
-      <div className="flex flex-col">
-        <div className=" w-full text-center pt-5 font-bold text-white text-2xl">
-          New Arrivals
-        </div>
-        <div className="p-7  flex gap-10 justify-evenly md:justify-center flex-wrap">
-          {products.map((product, id) => (
-            <Card products={product} key={id} />
-          ))}
-        </div>
-        {loading === false && (
-          <>
+      <NavBar name="home" />
+
+      {loading === false && (
+        <>
+          <div className="flex flex-col">
+            <div className=" w-full uppercase text-center pt-5 font-bold text-white text-2xl">
+              New Arrivals
+            </div>
+            <div className="p-7  flex gap-10 justify-evenly md:justify-center flex-wrap">
+              {products.map((product, id) => (
+                <Card products={product} key={id} />
+              ))}
+            </div>
             <div className=" w-full flex justify-center mb-40 text-center">
-              <Link to={"/shop"}>
+              <Link to={"/shop"} onClick={() => window.scrollTo(0, 0)}>
                 {" "}
                 <Button color="blue">Show more</Button>
               </Link>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
+
       {loading && (
         <>
           <div className="w-full  h-screen flex justify-center items-center">

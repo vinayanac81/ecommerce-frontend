@@ -51,8 +51,8 @@ const Shop = () => {
          {products.length > 0 ? (
           <>
             <div className="flex dark:bg-gray-700 flex-col">
-              <div className=" w-full text-center pt-5 font-bold text-white text-2xl">
-                New Arrivals
+              <div className=" w-full uppercase text-center pt-5 font-bold text-white text-2xl">
+              PRoducts
               </div>
               <div className="p-7  flex gap-10 justify-evenly md:justify-center flex-wrap">
                 {products.map((product, id) => (

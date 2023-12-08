@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { Avatar, Dropdown, Button, Navbar } from "flowbite-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineLogin } from "react-icons/hi";
+import { googleLogout } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import AxiosUserInstance from "../../Pages/User/AxiosUserInstance";
 import { BaseUrl } from "../../Constants";
+import { setUserCart, setUserDetails } from "../../Toolkit/UserSlice";
 const NavBar = ({ name }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [categories, setcategories] = useState([]);
   const [brands, setbrands] = useState([]);
   const [handleActive, sethandleActive] = useState({
@@ -33,12 +36,14 @@ const NavBar = ({ name }) => {
     sethandleActive({ ...handleActive, [name]: true });
   }, [name]);
   const handleLogout = () => {
+    googleLogout();
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
+    navigate("/");
+    dispatch(setUserDetails(""));
+    dispatch(setUserCart(0));
     toast.success("Logout Successfully");
-    // window.location.reload();
-    navigate("/login");
   };
   const handleLogin = () => {
     navigate("/login");
@@ -101,7 +106,7 @@ const NavBar = ({ name }) => {
                       Account
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => handleRoute("booking")}>
-                      Booking
+                      Orders
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={handleLogout}>
@@ -112,7 +117,16 @@ const NavBar = ({ name }) => {
               ) : (
                 <>
                   {" "}
-                  <Dropdown arrowIcon={false} inline label={<Avatar rounded />}>
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <Avatar
+                        placeholderInitials={userDetails.first_name.slice(0, 1)}
+                        rounded
+                      />
+                    }
+                  >
                     <Dropdown.Header>
                       <span className="block text-sm">
                         {userDetails.first_name} {userDetails.last_name}
@@ -121,12 +135,11 @@ const NavBar = ({ name }) => {
                         {userDetails?.email}
                       </span>
                     </Dropdown.Header>
-
                     <Dropdown.Item onClick={() => handleRoute("account")}>
                       Account
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => handleRoute("booking")}>
-                      Booking
+                      Orders
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={handleLogout}>

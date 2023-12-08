@@ -6,7 +6,7 @@ import Card from "../../Components/User/Card";
 const Category = () => {
   const { type } = useParams();
   const [products, setproducts] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const getProducts = async () => {
     try {
       setloading(true);
@@ -30,8 +30,8 @@ const Category = () => {
         {products.length > 0 ? (
           <>
             <div className="flex dark:bg-gray-700 flex-col">
-              <div className=" w-full text-center pt-5 font-bold text-white text-2xl">
-                New Arrivals
+              <div className=" w-full text-center pt-5 font-bold text-white text-lg">
+                Filter by Category - "<span className="uppercase">{type}</span>"
               </div>
               <div className="p-7  flex gap-10 justify-evenly md:justify-center flex-wrap">
                 {products.map((product, id) => (
@@ -44,7 +44,7 @@ const Category = () => {
           <>
             {loading === false && (
               <>
-                <div className=" w-full text-center pt-5 font-bold text-whit text-2xl">
+                <div className=" w-full text-white uppercase text-center pt-5 font-bold text-whit text-2xl">
                   Items not available
                 </div>
               </>

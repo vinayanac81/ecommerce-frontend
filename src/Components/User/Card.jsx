@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUserCart } from "../../Toolkit/UserSlice";
 const Card = ({ products }) => {
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const addToCart = async (id) => {
     try {
       const { data } = await AxiosUserInstance.post(
@@ -26,9 +27,20 @@ const Card = ({ products }) => {
       }
     } catch (error) {
       console.log(error);
+      if (
+        error?.response?.data?.message === "unauthorized user" ||
+        error?.response?.data?.message === "Unauthorized"
+      ) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cart");
+        navigate("/");
+        toast.error("Please login");
+      }
     }
   };
   const handleAddtoCart = (id, stock) => {
+
     if (stock === 0) {
       toast.error("Not stock");
     } else {

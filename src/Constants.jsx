@@ -6,7 +6,7 @@ import axios from "axios";
 //   baseURL: "http://localhost:1009",
 // });
 export const BaseUrl = "https://ecommerce-backend-1md8.onrender.com";
-export const ReferralBaseUrl="https://ecommerce-backend-1md8.onrender.com/signup"
+export const ReferralBaseUrl = "https://ecommerce-frong.onrender.com/signup";
 const AxiosInstance = axios.create({
   baseURL: "https://ecommerce-backend-1md8.onrender.com",
 });
@@ -29,4 +29,3 @@ export default AxiosInstance;
 //   config.headers["Access-control-Allow-Origin"] = "*";
 //   return config;
 // });
-
