@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import toast from "react-hot-toast";
 import AxiosUserInstance from "./AxiosUserInstance";
+import OTPInput from "otp-input-react";
 import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
+  const [otp, setOtp] = useState("");
+  const [openModal, setopenModal] = useState(false);
   const [signupData, setsignupData] = useState({
     first_name: "",
     last_name: "",
+    mobile: "",
     password: "",
     confirm_password: "",
     email: "",
@@ -22,14 +26,36 @@ const Signup = () => {
           {},
           { params: { signupData } }
         );
+        console.log(data);
         if (data.success) {
           toast.success(data.message);
-          navigate("/login");
-        }else{
-            toast.error("Please try again")
+          setopenModal(true);
+        } else if (data.emailExist) {
+          toast.error(data.message);
+        } else {
+          toast.error("Please try again");
         }
       } else {
         toast.error("password doesn't match");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const submitOtp = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(otp);
+      const { data } = await AxiosUserInstance.post("/auth/user/verify-otp", { otp });
+      console.log(data);
+      if (data.success === true) {
+        toast.success(data.message);
+        navigate("/login");
+      } else {
+        toast.error(data.message);
+        setOtp("")
+        setopenModal(false)
+        navigate("/signup");
       }
     } catch (error) {
       console.log(error);
@@ -92,6 +118,22 @@ const Signup = () => {
           </div>
           <div>
             <div className="mb-2 block">
+              <Label htmlFor="mobile" value="Mobile number" />
+            </div>
+            <TextInput
+              id="mobile"
+              value={signupData.mobile}
+              onChange={(e) =>
+                setsignupData({ ...signupData, mobile: e.target.value })
+              }
+              type="text"
+              placeholder=""
+              required
+              shadow
+            />
+          </div>
+          <div>
+            <div className="mb-2 block">
               <Label htmlFor="password" value="Password" />
             </div>
             <TextInput
@@ -123,19 +165,41 @@ const Signup = () => {
               shadow
             />
           </div>
-          {/* <div className="flex items-center gap-2">
-        <Checkbox id="agree" />
-        <Label htmlFor="agree" className="flex">
-          I agree with the&nbsp;
-          <Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
-            terms and conditions
-          </Link>
-        </Label>
-      </div> */}
+
           <Button onClick={handleSubmit} type="submit">
             Register new account
           </Button>
         </form>
+        <Modal
+          show={openModal}
+          size="md"
+          popup
+          onClose={() => setopenModal(false)}
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="space-y-6">
+              <h3 className="text-xl text-center font-medium text-gray-900 dark:text-white">
+                ENTER OTP
+              </h3>
+
+              <div className=" flex justify-center">
+                <OTPInput
+                  value={otp}
+                  onChange={setOtp}
+                  OTPLength={6}
+                  otpType="number"
+                  disabled={false}
+                  autoFocus
+                  className="opt-container outline-none border-none text-black"
+                />
+              </div>
+              <div className="w-full flex justify-center">
+                <Button onClick={submitOtp}>Verify OTP</Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );

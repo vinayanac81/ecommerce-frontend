@@ -81,42 +81,8 @@ const NavBar = ({ name }) => {
 
           {userDetails?.email ? (
             <>
-              {userDetails?.image ? (
+              {!userDetails?.image || userDetails.image==="" ? (
                 <>
-                  <Dropdown
-                    arrowIcon={false}
-                    inline
-                    label={
-                      <Avatar
-                        alt="User settings"
-                        img={`${BaseUrl}/images/${userDetails?.image}`}
-                        rounded
-                      />
-                    }
-                  >
-                    <Dropdown.Header>
-                      <span className="block text-sm">
-                        {userDetails.first_name} {userDetails.last_name}
-                      </span>
-                      <span className="block truncate text-sm font-medium">
-                        {userDetails?.email}
-                      </span>
-                    </Dropdown.Header>
-                    <Dropdown.Item onClick={() => handleRoute("account")}>
-                      Account
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleRoute("booking")}>
-                      Orders
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout}>
-                      Log out
-                    </Dropdown.Item>
-                  </Dropdown>
-                </>
-              ) : (
-                <>
-                  {" "}
                   <Dropdown
                     arrowIcon={false}
                     inline
@@ -146,6 +112,40 @@ const NavBar = ({ name }) => {
                       Log out
                     </Dropdown.Item>
                   </Dropdown>
+                </>
+              ) : (
+                <>
+                    <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <Avatar
+                        alt="User settings"
+                        img={`${BaseUrl}/images/${userDetails?.image}`}
+                        rounded
+                      />
+                    }
+                  >
+                    <Dropdown.Header>
+                      <span className="block text-sm">
+                        {userDetails.first_name} {userDetails.last_name}
+                      </span>
+                      <span className="block truncate text-sm font-medium">
+                        {userDetails?.email}
+                      </span>
+                    </Dropdown.Header>
+                    <Dropdown.Item onClick={() => handleRoute("account")}>
+                      Account
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRoute("booking")}>
+                      Orders
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={handleLogout}>
+                      Log out
+                    </Dropdown.Item>
+                  </Dropdown>
+                 
                 </>
               )}
             </>

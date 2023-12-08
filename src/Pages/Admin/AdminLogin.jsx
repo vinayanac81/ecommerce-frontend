@@ -8,8 +8,8 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, setlogin] = useState({
-    email: "",
-    password: "",
+    email: "Vinayanac7777@gmail.com",
+    password: "Vinayanac",
   });
   const handleLogin = async (e) => {
     try {
